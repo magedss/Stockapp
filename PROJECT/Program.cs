@@ -13,6 +13,5 @@ app.MapControllers();
 app.UseStaticFiles();
 app.UseRouting();
 
-app.MapGet("/", () => "Hello World!");
 
 app.Run();

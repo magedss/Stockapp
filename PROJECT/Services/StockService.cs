@@ -1,28 +1,56 @@
 ﻿using PROJECT.DTO;
+using PROJECT.Models;
 using PROJECT.ServiceContracts;
 
 namespace PROJECT.Services
 {
     public class StockService : IStocksService
     {
-        public Task<BuyOrderResponse> CreateBuyOrder(BuyOrderRequest? buyOrderRequest)
+        List<BuyOrder> _Buyorders; 
+        List<SellOrder> _Sellorders;
+        public StockService() {
+            _Buyorders = new List<BuyOrder>();
+            _Sellorders = new List<SellOrder>();
+        }
+        public async Task<BuyOrderResponse> CreateBuyOrder(BuyOrderRequest? buyOrderRequest)
         {
-            throw new NotImplementedException();
+            //model verfication
+            BuyOrder buyOrder = buyOrderRequest.ToBuyOrder();
+            buyOrder.BuyOrderID=Guid.NewGuid();
+            _Buyorders.Add(buyOrder);
+            return buyOrder.ToResponse();
         }
 
-        public Task<SellOrderResponse> CreateSellOrder(SellOrderRequest? sellOrderRequest)
+        public async Task<SellOrderResponse> CreateSellOrder(SellOrderRequest? sellOrderRequest)
         {
-            throw new NotImplementedException();
+            //model verfication
+            SellOrder sellOrder = sellOrderRequest.ToSellOrder();
+            sellOrder.SellOrderID = Guid.NewGuid();
+            _Sellorders.Add(sellOrder);
+         
+            return sellOrder.ToResponse();
         }
 
-        public Task<List<BuyOrderResponse>> GetBuyOrders()
+        public async Task<List<BuyOrderResponse>> GetBuyOrders()
         {
-            throw new NotImplementedException();
+            var myList= new List<BuyOrderResponse>();
+            foreach (var buyOrder in _Buyorders)
+            {
+                myList.Add(buyOrder.ToResponse());
+
+            }
+            return myList;
         }
 
-        public Task<List<SellOrderResponse>> GetSellOrders()
+        public async Task<List<SellOrderResponse>> GetSellOrders()
         {
-            throw new NotImplementedException();
+            var myList = new List<SellOrderResponse>();
+            foreach (var sellOrder in _Sellorders)
+            {
+                myList.Add(sellOrder.ToResponse());
+
+            }
+            return myList;
         }
     }
 }

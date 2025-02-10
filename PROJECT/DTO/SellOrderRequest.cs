@@ -1,18 +1,25 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PROJECT.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace PROJECT.DTO
 {
     public class SellOrderRequest
     {
         [Required]
-        string StockSymbol { get; set; }
+       public string StockSymbol { get; set; }
         [Required]
-        string StockName { get; set; }
+        public string StockName { get; set; }
         //check
-        DateTime DateAndTimeOfOrder { get; set; }
+        public DateTime DateAndTimeOfOrder { get; set; }
         [Range(1, 100000)]
-        uint Quantity { get; set; }
+        public uint Quantity { get; set; }
         [Range(1, 100000)]
-        double Price { get; set; }
+        public double Price { get; set; }
+
+        internal SellOrder ToSellOrder()
+        {
+            return new SellOrder { StockSymbol = this.StockSymbol, StockName = this.StockName, Price = this.Price, DateAndTimeOfOrder = this.DateAndTimeOfOrder, Quantity = this.Quantity };
+
+        }
     }
 }

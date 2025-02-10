@@ -1,19 +1,40 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using PROJECT.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace PROJECT.DTO
 {
     public class SellOrderResponse
     {
-        Guid SellOrderID { get; set; }
+       public Guid SellOrderID { get; set; }
         [Required]
-        string StockSymbol { get; set; }
+     public   string StockSymbol { get; set; }
         [Required]
-        string StockName { get; set; }
-        DateTime DateAndTimeOfOrder { get; set; }
+     public   string StockName { get; set; }
+      public  DateTime DateAndTimeOfOrder { get; set; }
         [Range(1, 100000)]
-        uint Quantity { get; set; }
+      public  uint Quantity { get; set; }
         [Range(1, 100000)]
-        double Price { get; set; }
-        double TradeAmount { get; set; }
+      public  double Price { get; set; }
+       public double TradeAmount { get; set; }
+    }
+    public static class SellOrderExtension
+    {
+        public static SellOrderResponse ToResponse(this SellOrder order)
+        {
+            return new SellOrderResponse()
+            {
+                SellOrderID = order.SellOrderID,
+                StockSymbol = order.StockSymbol,
+                StockName = order.StockName,
+                Price = order.Price,
+                Quantity = order.Quantity,
+                DateAndTimeOfOrder = order.DateAndTimeOfOrder,
+                TradeAmount = order.Quantity * order.Price
+
+
+            };
+
+        }
+
     }
 }
